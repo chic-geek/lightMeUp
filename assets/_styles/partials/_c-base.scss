@@ -1,0 +1,16 @@
+///////////////////////////////////////////////////////////
+// File: Base
+//
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+body {
+  padding:2em;
+}
