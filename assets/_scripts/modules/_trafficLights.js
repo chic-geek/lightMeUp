@@ -14,12 +14,12 @@
 
     var defaults = $.extend({
       url: '',
-      refreshRate: '3000'
+      refreshRate: '10000'
     }, defaults);
 
     // Ping url
     // ........................................................
-    function pingUrl(url, refreshRate) {
+    (function pingUrl(url, refreshRate) {
       setInterval(function() {
         $.ajax({
           url: url,
@@ -37,8 +37,7 @@
           }
         });
       }, refreshRate)
-    }
-    pingUrl(defaults.url, defaults.refreshRate);
+    })(defaults.url, defaults.refreshRate);
 
 
     // what happens when we all good...
@@ -60,10 +59,3 @@
   };
 
 }(jQuery));
-
-
-//
-// ........................................................
-$(document).ready(function() {
-  $('.m_traffic-lights').checkStatus('data/data.json', 10000);
-});
