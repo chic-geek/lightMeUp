@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   // will error on purpose, file name is incorrect
   $('[data-module="trafficLight-02"]').checkStatus({
-    url:'data/dat.json',
+    url:'data/data2.json',
     refreshRate: 3000
   });
 });
