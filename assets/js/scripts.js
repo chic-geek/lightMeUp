@@ -28,45 +28,53 @@
       refreshRate: '10000'
     }, defaults);
 
-    // Ping url
-    // ........................................................
-    (function pingUrl(url, refreshRate) {
-      setInterval(function() {
-        $.ajax({
-          url: url,
-          type: "GET",
-          dataType: "json",
-          statusCode: {
-            200: function(data) {
-              goGreen();
+    return this.each(function() {
+
+      var $that = $(this),
+          $greenSignal = $that.find('.m_traffic-light-green'),
+          $redSignal = $that.find('.m_traffic-light-red');
+
+      // Ping url
+      // ........................................................
+      (function pingUrl(url, refreshRate) {
+        setInterval(function() {
+          $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            statusCode: {
+              200: function(data) {
+                goGreen();
+              }
+            },
+            error: function(xhr, status, errorThrown) {
+              goRed();
+              console.log("Error: " + errorThrown);
+              console.log("Status: " + status);
             }
-          },
-          error: function(xhr, status, errorThrown) {
-            goRed();
-            console.log("Error: " + errorThrown);
-            console.log("Status: " + status);
-          }
-        });
-      }, refreshRate)
-    })(defaults.url, defaults.refreshRate);
+          });
+        }, refreshRate)
+      })(defaults.url, defaults.refreshRate);
 
 
-    // what happens when we all good...
-    // ........................................................
-    function goGreen() {
-      console.log('We have lift off!');
-      $('.m_traffic-light-red').removeClass('is-active');
-      $('.m_traffic-light-green').addClass('is-active');
-    }
+      // what happens when we all good...
+      // ........................................................
+      function goGreen() {
+        console.log('We have lift off!');
+        $redSignal.removeClass('is-active');
+        $greenSignal.addClass('is-active');
+      }
 
 
-    // error! error!
-    // ........................................................
-    function goRed() {
-      console.log('Houston... We have a problem!');
-      $('.m_traffic-light-red').addClass('is-active');
-      $('.m_traffic-light-green').removeClass('is-active');
-    }
+      // error! error!
+      // ........................................................
+      function goRed() {
+        console.log('Houston... We have a problem!');
+        $greenSignal.removeClass('is-active');
+        $redSignal.addClass('is-active');
+      }
+
+    });
   };
 
 }(jQuery));
@@ -76,8 +84,16 @@
 // document ready
 // ........................................................
 $(document).ready(function() {
-  $('.m_traffic-lights').checkStatus({
+
+  // should return 200
+  $('[data-module="trafficLight-01"]').checkStatus({
     url:'data/data.json',
+    refreshRate: 10000
+  });
+
+  // will error on purpose, file name is incorrect
+  $('[data-module="trafficLight-02"]').checkStatus({
+    url:'data/dat.json',
     refreshRate: 3000
   });
 });

@@ -11,8 +11,16 @@
 // document ready
 // ........................................................
 $(document).ready(function() {
-  $('.m_traffic-lights').checkStatus({
+
+  // should return 200
+  $('[data-module="trafficLight-01"]').checkStatus({
     url:'data/data.json',
+    refreshRate: 10000
+  });
+
+  // will error on purpose, file name is incorrect
+  $('[data-module="trafficLight-02"]').checkStatus({
+    url:'data/dat.json',
     refreshRate: 3000
   });
 });
